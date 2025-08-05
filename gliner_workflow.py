@@ -3,9 +3,11 @@ import pandas as pd
 import json
 import time
 from gliner_testing import extract_entities_no_spacy,extract_entities, descriptive_finder, get_fake_value, entity_to_fake
-from path import GLINER_PATH
 import os
 import time
+import sys
+sys.path.append("..")
+from path import GLINER_PATH,FILE_PATH
 
 @staticmethod
 def time_it(func):
@@ -21,7 +23,7 @@ def process_descriptive_data(file_path, output_path):
     print("[BG] Background descriptive data processing started.")
     df = pd.read_excel(file_path)
     descriptive_columns = descriptive_finder(file_path)
-    descriptive_data = df[descriptive_columns].fillna('').astype(str).values.ravel()[:20]
+    descriptive_data = df[descriptive_columns].fillna('').astype(str).values.ravel()[:10]
     string = ' '.join(descriptive_data)
     # Simulate long processing
 
@@ -95,10 +97,10 @@ def start_background_descriptive(file_path, output_path):
 if __name__ == "__main__":
 
     print("[MAIN] Starting background thread for descriptive data...")
-    bg_thread = start_background_descriptive("SO(real).xlsx", "descriptive_mapping_background.json")
+    bg_thread = start_background_descriptive(FILE_PATH, "descriptive_mapping_background.json")
 
     print("[MAIN] Main thread continues. Simulating SQL DataFrame processing...")
-    sql_df = pd.read_excel("SO(real).xlsx", nrows=5)
+    sql_df = pd.read_excel(FILE_PATH, nrows=5)
     print("[MAIN] Processing SQL DataFrame...")
     process_sql_dataframe(sql_df, "sql_query_mapping.json")
     print("[MAIN] SQL DataFrame processing done. Main thread can do other work.")

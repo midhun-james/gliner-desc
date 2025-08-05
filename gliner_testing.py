@@ -5,8 +5,10 @@ import json
 import re
 import gzip
 import sys
+import os
 import pandas as pd
-from path import GLINER_PATH,SPACY_PATH
+sys.path.append("..")
+from path import GLINER_PATH,SPACY_PATH,FILE_PATH
 
 model_path = GLINER_PATH
 nlp = spacy.load(SPACY_PATH)
@@ -196,9 +198,9 @@ def get_fake_value(label,real_value):
 if __name__ == "__main__":
     
 
-    df = pd.read_excel("SO(real).xlsx")
+    df = pd.read_excel(FILE_PATH)
     st= time.time()
-    descriptive_columns= descriptive_finder("SO(real).xlsx")
+    descriptive_columns= descriptive_finder(FILE_PATH)
     # descriptive_columns=["Comments","Reasons"]
     et= time.time()
     print(f"Descriptive columns: {descriptive_columns}")
